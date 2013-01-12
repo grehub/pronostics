@@ -1,0 +1,15 @@
+GrubKikadiBundle_home:
+    pattern:  /
+    defaults: { _controller: GrubKikadiBundle:Default:home }
+    
+GrubKikadiBundle_new_quote:
+    pattern:  /ajout
+    defaults: { _controller: GrubKikadiBundle:Default:addForm }    
+
+GrubKikadiBundle_submit_quote:
+    pattern:  /enregistrement
+    defaults: { _controller: GrubKikadiBundle:Default:submitQuote }
+    
+GrubKikadiBundle_vote:
+    pattern:  /vote/{quote_id}
+    defaults: { _controller: GrubKikadiBundle:Default:voteQuote } 

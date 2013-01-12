@@ -1,0 +1,47 @@
+.main{
+  margin-top:50px;
+}
+
+#quoteTable{
+  width:90%;
+  margin:auto;
+}
+
+#quoteTable [title] {
+  cursor: help;
+}
+#quoteTable .important {
+  font-weight: bold;
+}
+#quoteTable .sorting,
+#quoteTable .sorting_asc,
+#quoteTable .sorting_desc {
+  cursor: pointer;
+}
+#quoteTable .sorting_1 {
+  background: #EEE !important;
+}
+#quoteTable thead th {
+  background: #FFF;
+}
+#quoteTable .sort {
+  height: 20px;
+}
+#quoteTable .sort th {
+  background-image: url(../images/sort_both.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#quoteTable .sort th.sorting_asc {
+  background-image: url(../images/sort_asc.png);
+}
+#quoteTable .sort th.sorting_desc {
+  background-image: url(../images/sort_desc.png);
+}
+#quoteTable_paginate{position:relative;}
+#quoteTable_previous{position:absolute;left:10%;}
+#quoteTable_next{position:absolute;right:10%;}
+#quoteTable_first{position:absolute;left:17%;}
+#quoteTable_last{position:absolute;right:15%;}
+#quoteTable_paginate span{position:absolute; left:30%;right:30%;text-align: center;}
+#quoteTable_paginate span a{padding:0px 10px;}

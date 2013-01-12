@@ -1,0 +1,14 @@
+{% extends "GrubKikadiBundle::layout.html.twig" %}
+
+{% block stylesheet %}{% endblock %}
+
+{% block content %}
+
+<h1>Ajout d'une citation</h1>
+
+<form method="POST" action="{{path('GrubKikadiBundle_submit_quote')}}">
+{{form_row(form)}}
+<input type="submit" class="btn btn-primary" value="Envoyer" />
+</form>
+
+{% endblock %}

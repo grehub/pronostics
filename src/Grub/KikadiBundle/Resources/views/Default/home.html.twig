@@ -1,0 +1,50 @@
+{% extends "GrubKikadiBundle::layout.html.twig" %}
+
+{% block stylesheet %}
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Kikadiça</h1>
+	
+  {% if quotes|length > 0 %}
+	<table id="quoteTable" class="table table-striped table-bordered table-condensed">
+	  <thead>
+		<tr>
+                        <th style="width:4%;">Score</th>
+			<th style="width:56%;">Citation</th>
+			<th style="width:15%;">Auteur</th>
+			<th style="width:15%;">Ajoutée par</th>
+			<th style="width:10%;">Date</th>
+		</tr>
+	  </thead>	  
+	  <tbody>	  
+		  {% for item in quotes %}
+			<tr>
+                                <td class="score">
+                                  {{item.score}}<br />
+                                  <a href="#" id="votePlus" rel="{{item.id}}">+1</a>
+                                  <a href="#" id="voteMinus" rel="{{item.id}}">-1</a>
+                                </td>
+				<td>{{item.quote|raw}}</td>
+				<td>{{item.saidby}}</td>
+				<td>{{item.addedBy}}</td>
+				<td>{{item.date}}</td>
+			</tr>
+		  {% endfor %}
+	  </tbody>
+  {% else %}
+	Aucune citation à afficher. C'est pas normal, Houston, on a un problème.
+  {% endif %}
+
+
+{% endblock %}
+
+
+{% block javascript %}
+<script src="{{ asset('bundles/grubkikadi/js/libs/jquery-1.7.2.min.js') }}"></script>
+<script src="{{ asset('bundles/grubkikadi/js/libs/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('bundles/grubkikadi/js/libs/FixedHeader.min.js') }}"></script>
+{% javascripts 'bundles/grubkikadi/js/quote.js' filter='?yui_js' %} <script src="{{ asset_url }}"></script>{% endjavascripts %}
+{% endblock %}
