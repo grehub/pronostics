@@ -1,0 +1,79 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>{% block title %}Pronostics{% endblock %}</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="shortcut icon" href="{{ asset('bundles/grubpronostics/images/favicon.ico') }}"/>
+
+  {% stylesheets filter='cssrewrite,?yui_css' 'bundles/grubpronostics/less/global.less' %}
+  <link rel="stylesheet" href="{{ asset_url }}">
+  {% endstylesheets %}
+
+  {% block stylesheet %}{% endblock %}
+
+  <!-- Use SimpLESS (Win/Linux/Mac) or LESS.app (Mac) to compile your .less files
+   to style.css, and replace the 2 lines above by this one:
+
+  <!--[if lt IE 9]>
+  <script src="{{ asset('bundles/grubpronostics/js/libs/html5.js') }}"></script>
+  <![endif]-->
+</head>
+<body>
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a
+  different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to
+  experience this site.</p><![endif]-->
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">Pronostics</a>
+
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><a href="{{ path('GrubPronosticsBundle_accueil') }}">Accueil</a></li>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+          <li><a href="{{ path('GrubPronosticsBundle_pronostiquer') }}">Pronostiquer</a></li>
+          <li><a href="{{ path('GrubPronosticsBundle_classement') }}">Classement</a></li>
+          <li><a href="{{ path('GrubPronosticsBundle_groupes') }}">Groupes</a></li>
+
+          {% if is_granted('ROLE_ADMIN') %}
+          <li><a href="{{ path('sonata_admin_dashboard') }}">Administration</a></li>
+          {% endif %}
+
+          {% endif %}
+
+        </ul>
+        <ul class="nav pull-right">
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          <li><a href="{{ path('fos_user_change_password') }}">Changer le mot de passe</a></li>
+          <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion ({{ app.user.username }})</a></li>
+          {% else %}
+          <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  {% block content %}{% endblock %}
+</div>
+{% block javascript %}{% endblock %}
+</body>
+</html>

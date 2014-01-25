@@ -1,0 +1,63 @@
+{% extends "GrubPronosticsBundle::layout.html.twig" %}
+
+{% block stylesheet %}
+{% stylesheets filter='cssrewrite,?yui_css' 'bundles/grubpronostics/less/accueil.less' %}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+
+<h1>Bienvenue sur pronostics !</h1>
+
+{% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+<h2>Vous n'êtes pas connecté :-(</h2>
+
+<p>Si vous possédez un compte, cliquez sur le lien connexion en haut à droite. Login (nom.prenom) et mot de passe
+  (nom.prenom à changer rapidement).</p>
+<p>Si vous ne possédez pas de compte, adressez-vous à l’un des 3 administrateurs.</p>
+
+{% endif %}
+
+<h2>Comment jouer ?</h2>
+
+<h3>1. On pronostique</h3>
+<p>On pronostique simplement le score du match. Si vous avez pronostiqué le bon vainqueur ou le bon match nul, 3 points
+  dans la besace. Tout bon score trouvé pour 1 équipe amène 1 point supplémentaire. On gagne donc au maximum 5 points
+  par match en trouvant le bon score.</p>
+
+<h3>2. On joue le bonus risquette</h3>
+
+<h4>Principe de la risquette</h4>
+<p>Sur chaque match, il est possible de gagner jusqu'à 3 points supplémentaires en pariant sur la risquette. Le principe
+  est simple : si la risquette proposée se réalise, vous gagnez votre mise, sinon vous la perdez. Exemple de risquette :
+  "Henry marque au moins un but", "Au moins un tir sur un poteau dans le match", ...</p>
+
+<h4>Risquette négative</h4>
+<p>Si vous pensez que la risquette ne se réalisera pas, et bien vous pouvez miser jusqu'à 3 points d'anti-risquette. En
+  gros, sur une match Brésil-Iles Féroé, si la risquette c'est "Iles Féroé atomise la brésil 18-4", et que vous pensez
+  que cette risquette ne se réalisera pas (et vous aurez bien raison), et bien misez en négatif, ça vous amènera des
+  points assurément !</p>
+<p><em>Source de validation du bonus risquette : feuilles de matchs de <a href="http://www.sports.fr">www.sports.fr</a></em></p>
+
+<h3>3. Suivez votre évolution</h3>
+<p>Après chaque série de matchs, au niveau du tableau des scores...</p>
+
+<h3>Consignes générales</h3>
+<ul>
+  <li>Valider ses pronos chaque jour le début du match.</li>
+</ul>
+
+<h3>Classement final</h3>
+<p>Le vainqueur final est celui qui a le plus de points au Total (prono + risquettes)</p>
+<p>Valider ses pronos chaque jour avant le dbut du match.</p>
+<ul>
+  <li>Si égalité, total sans risquette</li>
+  <li>Si encore égalité : nombre de fois où le bon 1N2 a été trouvé</li>
+  <li>Si encore égalité, vote à main levée des participants</li>
+</ul>
+
+<p>Bonne chance ;-)</p>
+
+{% endblock %}

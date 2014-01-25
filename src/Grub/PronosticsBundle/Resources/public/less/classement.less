@@ -1,0 +1,51 @@
+.classement {
+  .you td {
+    color: #66F;
+    font-weight: bold;
+  }
+
+  [title] {
+    cursor: help;
+  }
+
+  .important {
+    font-weight: bold;
+  }
+
+  .sorting,
+  .sorting_asc,
+  .sorting_desc {
+    cursor: pointer;
+  }
+
+  .sorting_1 {
+    background: #EEE !important;
+  }
+
+  thead th {
+    background: #FFF;
+  }
+
+  .sort {
+    height: 20px;
+
+    th {
+      background-image: url(../images/sort_both.png);
+      background-repeat: no-repeat;
+      background-position: center center;
+
+      &.sorting_asc {
+        background-image: url(../images/sort_asc.png);
+      }
+
+      &.sorting_desc {
+        background-image: url(../images/sort_desc.png);
+      }
+    }
+  }
+
+  td {
+    text-align: right;
+    white-space: nowrap;
+  }
+}

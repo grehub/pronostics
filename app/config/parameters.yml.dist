@@ -1,0 +1,10 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     3306
+    database_name:     pronostics
+    database_user:     pronostics
+    database_password: pronostics
+
+    locale:            fr
+    secret:            ThisTokenIsNotSoSecretChangeIt

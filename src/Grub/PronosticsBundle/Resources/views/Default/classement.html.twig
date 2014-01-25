@@ -1,0 +1,102 @@
+{% extends "GrubPronosticsBundle::layout.html.twig" %}
+
+{% block stylesheet %}
+
+{% stylesheets filter='cssrewrite,?yui_css' 'bundles/grubpronostics/less/classement.less' %}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Classement ({{ classement|length }} joueurs)</h1>
+
+<table class="table table-striped table-bordered table-condensed classement">
+  <thead>
+  <tr>
+    <th rowspan="3">Joueur</th>
+    <th colspan="5">Points</th>
+    <th colspan="3">Classement</th>
+    <th colspan="4">Nombre de pronostiques</th>
+  </tr>
+  <tr>
+    <th colspan="3">global</th>
+    <th colspan="2">moyenne par pronostique</th>
+    <th rowspan="2">total</th>
+    <th rowspan="2">risq.</th>
+    <th rowspan="2"><s>risq.</s></th>
+    <th rowspan="2">total</th>
+    <th rowspan="2">cartons pleins</th>
+    <th rowspan="2">exacts</th>
+    <th rowspan="2">à côté de la plaque</th>
+  </tr>
+  <tr>
+    <th>tout</th>
+    <th>risq.</th>
+    <th><s>risq.</s></th>
+    <th>risq.</th>
+    <th><s>risq.</s></th>
+  </tr>
+  <tr class="sort">
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+
+  {% set i=0 %}
+  {% set score_prev=0 %}
+
+  {% for user in classement %}
+
+  {% set i=i+1 %}
+  {% if (score_prev==user.global) %}
+  {% set i=i-1 %}
+  {% endif %}
+
+  <tr {{ app.user.username == user.username ? 'class="you"' : '' }}>
+    <td>{{ user.firstname }} {{ user.lastname }}</td>
+    <td class="important" title="total des points">{{ user.global }}</td>
+    <td title="total des points (risquettes uniquement)">{{ user.globalrisq }}</td>
+    <td title="total des points (sans riquettes)">{{ user.globalsansrisq }}</td>
+    <td title="moyenne des points par pronostique (avec risquettes)">{{ user.moyavecrisq }}</td>
+    <td title="moyenne des points par pronostique (sans risquettes)">{{ user.moysansrisq }}</td>
+    <td class="important" title="classement total">{{ user.class }}</td>
+    <td title="classement (risquettes uniquement)">{{ user.classrisq }}</td>
+    <td title="classement (sans risquettes)">{{ user.classsansrisq }}</td>
+    <td title="Nombre de pronostiques (total)">{{ user.nb }}</td>
+    <td title="Nombre de pronostiques (cartons pleins)">{{ user.carton }}</td>
+    <td title="Nombre de pronostiques (exacts)">{{ user.exact }}</td>
+    <td title="Nombre de pronostiques (à côté de la plaque)">{{ user.acote }}</td>
+  </tr>
+
+  {% set score_prev=user.global %}
+  {% else %}
+  <tr>
+    <td colspan="13">Pas de joueurs</td>
+  </tr>
+  {% endfor%}
+
+  </tbody>
+</table>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('bundles/grubpronostics/js/libs/jquery-1.7.2.min.js') }}"></script>
+<script src="{{ asset('bundles/grubpronostics/js/libs/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('bundles/grubpronostics/js/libs/FixedHeader.min.js') }}"></script>
+{% javascripts 'bundles/grubpronostics/js/classement.js' filter='?yui_js' %} <script src="{{ asset_url }}"></script>{% endjavascripts %}
+{% endblock %}

@@ -1,0 +1,284 @@
+.dates {
+  background: #FFF;
+  border-radius: 5px 0 0 5px;
+  left: 50%;
+  list-style: none;
+  margin-left: -480px;
+  padding: 10px;
+  position: fixed;
+  top: 160px;
+  width: 80px;
+}
+
+.date-anchor {
+  display: block;
+  position: relative;
+  top: -50px;
+}
+
+.date {
+  margin: 20px 0;
+
+  a {
+    font-size: 14px;
+  }
+}
+
+.game {
+  background: #F5F5F5;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 30px;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+
+& > * {
+  float: left;
+}
+
+form:nth-child(2n) & {
+  background: #EEE;
+}
+
+  }
+
+.game.modified {
+  background: #FFC !important;
+}
+
+.message {
+  font-size: 12px;
+  float: right;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.message-sending,
+.message-ok,
+.message-global ul,
+.message-scoreA ul,
+.message-scoreB ul,
+.message-risquette ul {
+  border-radius: 5px;
+  color: #FFF;
+  font-weight: bold;
+  padding: 3px 10px;
+}
+
+.message-global ul,
+.message-scoreA ul,
+.message-scoreB ul,
+.message-risquette ul {
+  background: #B91414;
+}
+
+.message-sending {
+  background: #FFA;
+  color: #000;
+}
+
+.message-ok {
+  background: #191;
+}
+
+.modified .message-ok {
+  display: none;
+}
+
+.message-scoreA,
+.message-scoreB {
+  position: absolute;
+  top: 2px;
+  width: 35%;
+
+  ul:after {
+    border: 10px solid transparent;
+    border-top: 10px solid #B91414;
+    content: '';
+    display: block;
+    position: absolute;
+    height: 0;
+    width: 0;
+  }
+}
+
+.message-scoreA {
+  left: 25.6%;
+
+  ul:after {
+    left: 80%;
+  }
+}
+
+.message-scoreB {
+  right: 1%;
+
+  ul:after {
+    left: 20%;
+  }
+}
+
+.title {
+  font-weight: bold;
+}
+
+.infos {
+  clear: both;
+  overflow: hidden;
+  width: 25%;
+}
+
+.time,
+.channel {
+  float: left;
+}
+
+.channel img {
+  width: 40px;
+  margin-left: 10px;
+  vertical-align: baseline;
+}
+
+.location {
+  clear: both;
+  color: #777;
+  font-style: italic;
+}
+
+.name {
+  height: 60px;
+  line-height: 60px;
+  width: 20%;
+
+  &.teamA {
+    text-align: right;
+  }
+  &.teamB {
+    float: right;
+  }
+}
+
+.flag {
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  width: 10%;
+
+  &.teamB {
+    float: right;
+  }
+  img {
+    height: 100%;
+  }
+}
+
+.scores {
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  width: 15%;
+}
+
+.bet-input {
+  font-size: 16px;
+  margin: 0 5%;
+  padding: 5% 0;
+  text-align: center;
+  width: 35%;
+}
+
+.real-scores {
+  font-size: 18px;
+  font-weight: bold;
+  height: 30px;
+  letter-spacing: 5px;
+  line-height: 30px;
+  padding-top: 8px;
+}
+
+.bet-scores {
+  color: #777;
+  font-size: 14px;
+  font-style: italic;
+  height: 20px;
+  line-height: 20px;
+}
+
+.risquette-status {
+  clear: both;
+  font-size: 13px;
+  line-height: 22px;
+  margin-top: 10px;
+  width: 25%;
+}
+
+.risquette-validee {
+  color: green;
+  font-weight: bold;
+}
+
+.risquette-non-validee {
+  color: red;
+  font-weight: bold;
+}
+
+.risquette-description {
+  font-size: 13px;
+  line-height: 22px;
+  margin-top: 10px;
+  width: 75%;
+}
+
+.risquette-value {
+  clear: both;
+  margin: 10px 0 0 25%;
+}
+
+.game-status {
+  color: #777;
+  float: right;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+
+  .btn {
+    opacity: .3;
+  }
+}
+
+.modified .game-status .btn {
+  opacity: 1;
+}
+
+.no-points,
+.positive-points,
+.negative-points {
+  &[title] {
+    cursor: help;
+  }
+}
+
+.positive-points {
+  color: green;
+}
+
+.negative-points {
+  color: red;
+}
+
+input[disabled],
+select[disabled],
+input[readonly],
+select[readonly] {
+  background-color: #DDD;
+  border-color: #CCC;
+}
+
+select {
+  width: auto;
+}

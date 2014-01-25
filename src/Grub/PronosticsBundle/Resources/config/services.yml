@@ -1,0 +1,36 @@
+parameters:
+#    grub_pronostics.example.class: Grub\PronosticsBundle\Example
+
+services:
+#    grub_pronostics.example:
+#        class: %grub_pronostics.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+  grub.pronostics.admin.game:
+    class: Grub\PronosticsBundle\Admin\GameAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: global, label: Matchs}
+    arguments: [null, Grub\PronosticsBundle\Entity\Game, null]
+
+  grub.pronostics.admin.team:
+    class: Grub\PronosticsBundle\Admin\TeamAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: global, label: Equipes}
+    arguments: [null, Grub\PronosticsBundle\Entity\Team, null]
+
+  grub.pronostics.admin.group:
+    class: Grub\PronosticsBundle\Admin\GroupAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: global, label: Groupes}
+    arguments: [null, Grub\PronosticsBundle\Entity\Group, null]
+
+  grub.pronostics.admin.bet:
+    class: Grub\PronosticsBundle\Admin\BetAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: global, label: Paris}
+    arguments: [null, Grub\PronosticsBundle\Entity\Bet, null]
+
+  twig.extension.pronostics:
+    class: Grub\PronosticsBundle\Twig\Extension\PronosticsExtension
+    tags:
+      - { name: twig.extension }

@@ -1,0 +1,120 @@
+{% set NOT_STARTED = constant('Grub\\PronosticsBundle\\Entity\\Game::NOT_STARTED') %}
+{% set IN_PROGRESS = constant('Grub\\PronosticsBundle\\Entity\\Game::IN_PROGRESS') %}
+{% set FINISHED = constant('Grub\\PronosticsBundle\\Entity\\Game::FINISHED') %}
+
+<form action="{{ path('GrubPronosticsBundle_envoi_pronostique', { 'gameId': game.id }) }}" method="POST">
+  <div class="game">
+    <div class="message">
+      {% if form is not null %}
+        {% if app.session.hasFlash('message-ok') %}
+          <span class="message-ok">{{ app.session.flash('message-ok') }}</span>
+        {% endif %}
+        <div class="message-global">{{ form_errors(form) }}</div>
+        <div class="message-scoreA">{{ form_errors(form.scoreA) }}</div>
+        <div class="message-scoreB">{{ form_errors(form.scoreB) }}</div>
+        <div class="message-risquette">{{ form_errors(form.risquette) }}</div>
+      {% endif %}
+    </div>
+
+    <div class="title">{{ game.title }}</div>
+
+    <div class="infos">
+      <div class="time">{{ game.date|date("H:i") }}</div>
+      {% if game.channel is not null and game.channel != "" %}
+      <div class="channel"><img src="{{ asset('bundles/grubpronostics/images/channels/' ~ game.channel|slug ~ '.png') }}" alt="{{ game.channel }}"></div>
+      {% endif %}
+      <div class="location">{{ game.location }}</div>
+    </div>
+
+    <div class="teamA name">{{ game.teamA.name | default('...') }}</div>
+    <div class="teamA flag">
+      <img src="{{ asset('bundles/grubpronostics/images/flags/' ~ game.teamA|slug ~ '.png') }}" alt="{{ game.teamA }}">
+    </div>
+
+    <div class="teamB name">{{ game.teamB.name | default('...') }}</div>
+    <div class="teamB flag">
+      <img src="{{ asset('bundles/grubpronostics/images/flags/' ~ game.teamB|slug ~ '.png') }}" alt="{{ game.teamB }}">
+    </div>
+
+    <div class="scores">
+      {% if game.status != FINISHED %}
+        <input type="text" class="teamA bet-input" name="bet[scoreA]"
+               value="{{ bet is not null ? bet.scoreA : '' }}" required
+               title="Pronostique pour l'équipe {{ game.teamA | default('...') }}"
+            {{ game.status == NOT_STARTED ? '' : 'disabled' }}>
+
+        <input type="text" class="teamB bet-input" name="bet[scoreB]"
+               value="{{ bet is not null ? bet.scoreB : '' }}" required
+               title="Pronostique pour l'équipe {{ game.teamB | default('...') }}"
+            {{ game.status == NOT_STARTED ? '' : 'disabled' }}>
+      {% else %}
+        <div class="real-scores">{{ game.scoreA }} - {{ game.scoreB }}</div>
+        {% if bet is null %}
+          <div class="bet-scores">pas de prono</div>
+        {% else %}
+          <div class="bet-scores">prono : {{ bet.scoreA }} - {{ bet.scoreB }}</div>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    <div class="risquette-status">Risquette :
+      {% if game.status == FINISHED %}
+        {% if game.risquetteValidee %}
+          <span class="risquette-validee">Réalisée</span>
+        {% else %}
+          <span class="risquette-non-validee">Non réalisée</span>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="risquette-description">{{ game.risquette | default('(la description de la risquette sera bientôt ajoutée...)') }}</div>
+
+    <select class="risquette-value" name="bet[risquette]"
+            title="Pronostiquez ici la probabilité que l'événement décrit au dessus arrive ou non."
+        {{ game.status == NOT_STARTED ? '' : 'disabled' }}>
+      <option value="-3" {{ bet is not null and bet.risquette == -3 ? 'selected' : '' }}>
+        Non c'est mort (-3 pts si la risquette se réalise, 3 pts sinon)
+      </option>
+      <option value="-2" {{ bet is not null and bet.risquette == -2 ? 'selected' : '' }}>
+        Mouais j'pense pas (-2 pts si la risquette se réalise, 2 pts sinon)
+      </option>
+      <option value="-1" {{ bet is not null and bet.risquette == -1 ? 'selected' : '' }}>
+        Bof pt'et pas (-1 pt si la risquette se réalise, 1 pt sinon)
+      </option>
+      <option value="0" {{ bet is null or (bet is not null and bet.risquette) == 0 ? 'selected' : '' }}>
+        J'en sais rien (quoi qu'il arrive : pas de points en moins ou en plus)
+      </option>
+      <option value="1" {{ bet is not null and bet.risquette == 1 ? 'selected' : '' }}>
+        Bof pt'et (1 pt si la risquette se réalise, -1 pt sinon)
+      </option>
+      <option value="2" {{ bet is not null and bet.risquette == 2 ? 'selected' : '' }}>
+        Mouais y'a moyen (2 pts si la risquette se réalise, -2 pts sinon)
+      </option>
+      <option value="3" {{ bet is not null and bet.risquette == 3 ? 'selected' : '' }}>
+        Ziva c'est sûr (3 pts si la risquette se réalise, -3 pts sinon)
+      </option>
+    </select>
+
+    <div class="game-status">
+      {% if game.status == NOT_STARTED %}
+        {% if bet is null %}
+          <input type="submit" class="btn btn-primary" value="Pronostiquer">
+        {% else %}
+          <input type="submit" class="btn btn-info" value="Mettre à jour">
+        {% endif %}
+      {% endif %}
+
+      {% if game.status == IN_PROGRESS %}
+        <span class="in-progress">{{ IN_PROGRESS }}</span>
+      {% endif %}
+
+      {% if game.status == FINISHED %}
+        {% if bet is null %}
+          <span title="pas de pronostique pas de points..." class="no-points">0pts</span>
+        {% else %}
+          <span title="score sans risquette" class="{{ bet.score > 0 ? 'positive-points' : '' }} {{ bet.score < 0 ? 'negative-points' : '' }}">{{ bet.score }} pts</span> /
+          <span title="score de la risquette (uniquement)" class="{{ bet.bonus > 0 ? 'positive-points' : '' }} {{ bet.bonus < 0 ? 'negative-points' : '' }}">{{ bet.bonus }} pts</span>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</form>

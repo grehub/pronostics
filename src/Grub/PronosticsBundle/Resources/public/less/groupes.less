@@ -1,0 +1,43 @@
+.main {
+  overflow: hidden;
+}
+
+.group {
+  float: left;
+  margin-right: 2%;
+  width: 48%;
+}
+
+.groupes {
+  table-layout: fixed;
+
+  th {
+    text-align: center;
+
+    &[title] {
+      cursor: pointer;
+    }
+  }
+
+  td {
+    vertical-align: bottom;
+    text-align: right;
+  }
+
+  th.team,
+  td.team {
+    text-align: left;
+    width: 160px;
+  }
+
+  img {
+    height: 20px;
+    margin-right: 2px;
+  }
+
+  .line-1,
+  .line-2 {
+    color: #66F;
+    font-weight: bold;
+  }
+}

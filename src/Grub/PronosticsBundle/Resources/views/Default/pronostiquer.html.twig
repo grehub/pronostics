@@ -1,0 +1,55 @@
+{% extends "GrubPronosticsBundle::layout.html.twig" %}
+
+{% block stylesheet %}
+{% stylesheets filter='cssrewrite,?yui_css' 'bundles/grubpronostics/less/pronostiquer.less' %}
+<link rel="stylesheet" href="{{ asset_url }}">
+{% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+
+<h1>Pronostiquer</h1>
+
+<ul class="dates">
+  {% set date = '' %}
+  {% for game in games %}
+
+  {% if date != game.date|date("l j F") or date == '' %}
+  <li><a href="#{{ game.date|date("l")|trans }}-{{ game.date|date("j") }}-{{ game.date|date("F")|trans }}" class="date-link">{{ game.date|date("l")|trans|trunc }} {{ game.date|date("j") }} {{ game.date|date("F")|trans }}</a></li>
+  {% endif %}
+
+  {% set date = game.date|date("l j F") %}
+
+  {% endfor%}
+</ul>
+
+<div class="games">
+
+  {% set date = '' %}
+  {% for game in games %}
+
+  {% if date != game.date|date("l j F") or date == '' %}
+  <a class="date-anchor" id="{{ game.date|date("l")|trans }}-{{ game.date|date("j") }}-{{ game.date|date("F")|trans }}"></a>
+
+  <h2 class="date">
+    {{ game.date|date("l")|trans }} {{ game.date|date("j") }} {{ game.date|date("F")|trans }}
+  </h2>
+  {% endif %}
+  {% set date = game.date|date("l j F") %}
+
+  {% set bet = game.bets.get(0) %}
+
+  {% include 'GrubPronosticsBundle:Default:game.html.twig' with {'game': game, 'bet': bet, 'form': null} %}
+
+  {% else %}
+  Pas de match :-(
+  {% endfor%}
+
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('bundles/grubpronostics/js/libs/jquery-1.7.2.min.js') }}"></script>
+{% javascripts 'bundles/grubpronostics/js/pronostiquer.js' filter='?yui_js' %} <script src="{{ asset_url }}"></script>{% endjavascripts %}
+{% endblock %}

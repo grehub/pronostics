@@ -1,0 +1,22 @@
+GrubPronosticsBundle_accueil:
+    pattern:  /
+    defaults: { _controller: GrubPronosticsBundle:Default:accueil }
+
+GrubPronosticsBundle_pronostiquer:
+    pattern:  /pronostiquer
+    defaults: { _controller: GrubPronosticsBundle:Default:pronostiquer }
+
+GrubPronosticsBundle_envoi_pronostique:
+    pattern:  /pronostiquer/{gameId}
+    defaults: { _controller: GrubPronosticsBundle:Default:envoyerPronostique }
+    requirements:
+      _method:  POST
+
+GrubPronosticsBundle_classement:
+    pattern:  /classement
+    defaults: { _controller: GrubPronosticsBundle:Default:classement }
+
+
+GrubPronosticsBundle_groupes:
+    pattern:  /groupes
+    defaults: { _controller: GrubPronosticsBundle:Default:groupes }

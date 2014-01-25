@@ -1,0 +1,63 @@
+{% extends "GrubPronosticsBundle::layout.html.twig" %}
+
+{% block stylesheet %}
+{#{% stylesheets filter='cssrewrite,?yui_css' 'bundles/grubpronostics/less/groupes.less' %}#}
+{#<link rel="stylesheet" href="{{ asset_url }}">#}
+{#{% endstylesheets %}#}
+{% endblock %}
+
+{% block content %}
+<h1>Phases de groupes</h1>
+
+<p>Vous pouvez retrouver le classement des groupes prenant en compte tous les cas de figure ici : <a href="http://fr.uefa.com/uefaeuro/season=2012/standings/index.html">classement groupes euro 2012 (uefa.com)</a>.</p>
+
+{#{% for group in groups %}#}
+
+{#<div class="group">#}
+  {#<h2>{{ group.name }}</h2>#}
+
+  {#<table class="table table-striped table-bordered table-condensed groupes">#}
+    {#<thead>#}
+    {#<tr>#}
+      {#<th class="team">Équipes</th>#}
+      {#<th title="points">pts</th>#}
+      {#<th title="matchs joués">J</th>#}
+      {#<th title="victoires">V</th>#}
+      {#<th title="matches nuls">N</th>#}
+      {#<th title="défaites">D</th>#}
+      {#<th title="buts pour">bp</th>#}
+      {#<th title="buts contre">bc</th>#}
+      {#<th title="différence de buts">diff</th>#}
+    {#</tr>#}
+    {#</thead>#}
+
+    {#<tbody>#}
+
+    {#{% for team in group.teams %}#}
+    {#<tr class="line-{{ loop.index }}">#}
+      {#<td class="team"><img src="{{ asset('bundles/grubpronostics/images/flags/' ~ team.name|slug ~ '.png') }}"#}
+                            {#alt="{{ team.name }}"> {{ team.name }}</td>#}
+      {#<td>{{ team.pts }}</td>#}
+      {#<td>{{ team.j }}</td>#}
+      {#<td>{{ team.v }}</td>#}
+      {#<td>{{ team.n }}</td>#}
+      {#<td>{{ team.d }}</td>#}
+      {#<td>{{ team.bp }}</td>#}
+      {#<td>{{ team.bc }}</td>#}
+      {#<td>{{ team.diff }}</td>#}
+    {#</tr>#}
+    {#{% endfor %}#}
+
+    {#</tbody>#}
+  {#</table>#}
+{#</div>#}
+
+{#{% endfor %}#}
+
+{% endblock %}
+
+{% block javascript %}
+{#<script src="{{ asset('bundles/grubpronostics/js/libs/jquery-1.7.2.min.js') }}"></script>#}
+{#<script src="{{ asset('bundles/grubpronostics/js/libs/jquery.dataTables.min.js') }}"></script>#}
+{#{% javascripts 'bundles/grubpronostics/js/groupes.js' filter='?yui_js' %} <script src="{{ asset_url }}"></script>{% endjavascripts %}#}
+{% endblock %}
