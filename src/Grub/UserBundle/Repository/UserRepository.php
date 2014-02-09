@@ -7,16 +7,18 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
 
-    public function findAllJoinedToBet()
+    public function findAllJoinedToBet($groupid)
     {
-        $query = $this->getEntityManager()->createQuery('
-            SELECT u, b
-            FROM GrubUserBundle:User u
-            LEFT JOIN u.bets b
-        ');
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->select('u,b')
+            ->join('u.bets','b')
+            ->where('u.group = :group')
+            ->setParameter('group',$groupid)
+        ;
 
         try {
-            return $query->getResult();
+            return $qb->getQuery()->getResult();
         } catch (\Doctrine\ORM\NoResultException $e) {
             return null;
         }

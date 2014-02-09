@@ -33,6 +33,12 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Grub\PronosticsBundle\Entity\Bet", mappedBy="user")
      */
     protected $bets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="users", fetch="EAGER")
+     * @ORM\JoinColumn(name="usergroup_id", referencedColumnName="id")
+     */
+    protected $group;
 	
 	
     public function __construct()
@@ -169,4 +175,37 @@ class User extends BaseUser
             'exact'=>$exact,
             );
     }	
+
+    /**
+     * Remove bets
+     *
+     * @param \Grub\PronosticsBundle\Entity\Bet $bets
+     */
+    public function removeBet(\Grub\PronosticsBundle\Entity\Bet $bets)
+    {
+        $this->bets->removeElement($bets);
+    }
+
+    /**
+     * Set group
+     *
+     * @param \Grub\UserBundle\Entity\Group $group
+     * @return User
+     */
+    public function setGroup(\Grub\UserBundle\Entity\Group $group = null)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
+    /**
+     * Get group
+     *
+     * @return \Grub\UserBundle\Entity\Group 
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
 }

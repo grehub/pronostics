@@ -3,7 +3,7 @@
 namespace Grub\PronosticsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,30 +13,30 @@ use Grub\PronosticsBundle\Entity\Game;
 use Grub\PronosticsBundle\Entity\Bet;
 
 
-class DefaultController extends ContainerAware
+class DefaultController extends Controller
 {
 
     public function accueilAction(Request $request)
     {
-        return $this->container->get('templating')->renderResponse('GrubPronosticsBundle:Default:accueil.html.twig');
+        return $this->render('GrubPronosticsBundle:Default:accueil.html.twig');
     }
 
     public function pronostiquerAction(Request $request)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.entity_manager');
         $games = $em->getRepository('GrubPronosticsBundle:Game')->findJoinedToTeamAndBetByUser($user->getId());
 
-        return $this->container->get('templating')->renderResponse('GrubPronosticsBundle:Default:pronostiquer.html.twig',
+        return $this->render('GrubPronosticsBundle:Default:pronostiquer.html.twig',
             array('games' => $games));
     }
 
     public function envoyerPronostiqueAction(Request $request, $gameId)
     {
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.entity_manager');
         $game = $em->getRepository('GrubPronosticsBundle:Game')->findOneJoinedToTeamAndBetByUser($gameId, $user->getId());
 
         if (!$game) {
@@ -51,11 +51,11 @@ class DefaultController extends ContainerAware
             $bet->setUser($user);
         }
 
-        $form = $this->container->get('form.factory')->create(new BetType(), $bet);
+        $form = $this->createForm(new BetType(), $bet);
 
         $form->bindRequest($request);
 
-        $this->container->get('session')->removeFlash('message-ok');
+        $this->get('session')->removeFlash('message-ok');
         if ($game->getStatus() == Game::IN_PROGRESS) {
             $form->addError(new FormError('Désolé, le match est déjà commencé :-('));
         } else if ($game->getStatus() == Game::FINISHED) {
@@ -64,22 +64,22 @@ class DefaultController extends ContainerAware
             if ($form->isValid()) {
                 $em->persist($bet);
                 $em->flush();
-                $this->container->get('session')->setFlash('message-ok', 'Pronostique enregistré :-)');
+                $this->get('session')->setFlash('message-ok', 'Pronostique enregistré :-)');
             }
         }
 
-        return $this->container->get('templating')->renderResponse('GrubPronosticsBundle:Default:game.html.twig',
+        return $this->render('GrubPronosticsBundle:Default:game.html.twig',
             array('game' => $game, 'bet' => $bet, 'form' => $form->createView()));
     }
 
     public function classementAction(Request $request)
     {
-        if (!is_object($this->container->get('security.context')->getToken()->getUser())) {
+        if (!is_object($this->getUser())) {
             throw new AccessDeniedException('interdit');
         }
 
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $users = $em->getRepository('GrubUserBundle:User')->findAllJoinedToBet();
+        $em = $this->get('doctrine.orm.entity_manager');
+        $users = $em->getRepository('GrubUserBundle:User')->findAllJoinedToBet($this->getUser()->getGroup()->getId());
 
         foreach ($users as $user) {
             $classement[$user->getId()] = $user->getRankingInfos();
@@ -94,7 +94,7 @@ class DefaultController extends ContainerAware
         uasort($classement, array($this, "cmpGlobalSansRisq"));
         $this->applyClassement($classement, 'globalsansrisq', 'classsansrisq');
 
-        return $this->container->get('templating')->renderResponse('GrubPronosticsBundle:Default:classement.html.twig',
+        return $this->render('GrubPronosticsBundle:Default:classement.html.twig',
             array('classement' => $classement));
     }
 
@@ -187,7 +187,7 @@ class DefaultController extends ContainerAware
 //        return $this->container->get('templating')->renderResponse('GrubPronosticsBundle:Default:groupes.html.twig',
 //            array('groups' => $groups));
 
-        return $this->container->get('templating')->renderResponse('GrubPronosticsBundle:Default:groupes.html.twig');
+        return $this->render('GrubPronosticsBundle:Default:groupes.html.twig');
     }
 
     private function createEmptyGroupTeamScoreBoard($team)
