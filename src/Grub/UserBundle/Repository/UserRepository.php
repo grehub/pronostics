@@ -12,7 +12,7 @@ class UserRepository extends EntityRepository
         $qb = $this->createQueryBuilder('u');
         $qb
             ->select('u,b')
-            ->join('u.bets','b')
+            ->leftJoin('u.bets','b')
             ->where('u.group = :group')
             ->setParameter('group',$groupid)
         ;

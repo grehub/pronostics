@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="usergroup")
- * @ORM\Entity(repositoryClass="Grub\UserBundle\Repository\GroupRepository")
+ * @ORM\Entity()
  */
 class Group
 {
@@ -35,6 +35,11 @@ class Group
     public function __construct()
     {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     /**

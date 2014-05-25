@@ -53,9 +53,9 @@ class DefaultController extends Controller
 
         $form = $this->createForm(new BetType(), $bet);
 
-        $form->bindRequest($request);
+        $form->handleRequest($request);
 
-        $this->get('session')->removeFlash('message-ok');
+        $this->get('session')->getFlashBag()->get('message-ok');
         if ($game->getStatus() == Game::IN_PROGRESS) {
             $form->addError(new FormError('Désolé, le match est déjà commencé :-('));
         } else if ($game->getStatus() == Game::FINISHED) {
@@ -64,7 +64,7 @@ class DefaultController extends Controller
             if ($form->isValid()) {
                 $em->persist($bet);
                 $em->flush();
-                $this->get('session')->setFlash('message-ok', 'Pronostique enregistré :-)');
+                $this->get('session')->getFlashBag()->add('message-ok', 'Pronostique enregistré :-)');
             }
         }
 

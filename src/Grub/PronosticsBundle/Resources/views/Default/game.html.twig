@@ -6,9 +6,9 @@
   <div class="game">
     <div class="message">
       {% if form is not null %}
-        {% if app.session.hasFlash('message-ok') %}
-          <span class="message-ok">{{ app.session.flash('message-ok') }}</span>
-        {% endif %}
+        {% for flashMessage in app.session.flashbag.get('message-ok') %}
+            <span class="message-ok">{{ flashMessage }}</span>
+        {% endfor %}
         <div class="message-global">{{ form_errors(form) }}</div>
         <div class="message-scoreA">{{ form_errors(form.scoreA) }}</div>
         <div class="message-scoreB">{{ form_errors(form.scoreB) }}</div>
